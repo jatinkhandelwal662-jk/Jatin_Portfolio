@@ -473,7 +473,7 @@ export const PROJECTS: ProjectItem[] = [
     tech: ["Python", "Streamlit", "LangChain", "ChromaDB", "Hugging Face", "Groq"],
     github:
       "https://github.com/jatinkhandelwal662-jk/Gen-AI_Course-Assistant-RAG-",
-    live: "https://fwgfilywrqeclycvbuo4np.streamlit.app/",
+    live: "https://mz3znpqjbwywe8mkmb5xvl.streamlit.app/",
   },
 ];
 

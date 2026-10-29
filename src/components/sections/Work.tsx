@@ -15,7 +15,11 @@ const PROJECT_IMAGES: Record<string, string[]> = {
     "/photos/music-academy-piano.jpg",
     "/photos/music-academy-production.jpg",
   ],
-  "genai-course-assistant": ["/photos/genai-course-assistant-rag.svg"],
+  "genai-course-assistant": [
+    "/photos/rag-1.png",
+    "/photos/rag-2.png",
+    "/photos/rag-3.png",
+  ],
 };
 
 export function Work() {
