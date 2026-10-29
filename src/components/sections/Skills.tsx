@@ -17,7 +17,7 @@ export function Skills() {
           tagLabel="Technical Competencies"
           headingMain="The periodic table of my"
           italicWord="stack."
-          description="Every language, framework, API, and core foundational discipline drawn strictly from active engineering projects."
+          description="A snapshot of the languages, frameworks, databases, design tools, and core disciplines in my stack."
         />
 
         {/* Filter Chips */}

@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import Link from "next/link";
 import { PROFILE } from "@/lib/data";
 import { scrollToTarget } from "@/lib/scroll";
 
@@ -20,20 +21,6 @@ function HoppingText({ text }: { text: string }) {
 }
 
 export function Contact() {
-  const [copied, setCopied] = useState(false);
-
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(PROFILE.email);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // Fallback
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
   const handleBackToTop = (e: React.MouseEvent) => {
     e.preventDefault();
     scrollToTarget("#hero");
@@ -87,29 +74,24 @@ export function Contact() {
           </div>
         </div>
 
-        {/* Email with Copy Chip */}
+        {/* Conversation call to action */}
         <div className="rv py-8 border-y border-[rgba(13,13,13,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-4" style={{ "--i": 3 } as React.CSSProperties}>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <a
-              href={`mailto:${PROFILE.email}`}
-              className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0d0d0d] hover:text-[#77756f] underline decoration-1 underline-offset-8 transition-colors break-all"
-            >
-              {PROFILE.email}
-            </a>
-
-            <button
-              type="button"
-              onClick={copyEmail}
-              aria-live="polite"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono bg-white border border-[rgba(13,13,13,0.12)] text-[#0d0d0d] hover:bg-[#0d0d0d] hover:text-[#f4f2ee] active:scale-95 transition-all self-start"
-            >
-              <span>{copied ? "Copied ✓" : "Copy"}</span>
-            </button>
+          <div>
+            <p className="text-lg font-semibold text-[#0d0d0d]">
+              Have a project or idea in mind?
+            </p>
+            <p className="mt-1 text-sm text-[#77756f]">
+              Share a few details and I&apos;ll get back to you.
+            </p>
           </div>
-
-          <div className="text-xs text-[#77756f] mono-label">
-            Available for internships & collaborations
-          </div>
+          <Link
+            href="/inquiry"
+            data-nova-cta="contact"
+            className="inline-flex min-h-14 items-center justify-between gap-8 rounded-xl bg-[#0d0d0d] px-6 py-4 text-sm font-semibold text-[#f4f2ee] transition-colors hover:bg-[#df755d] hover:text-white"
+          >
+            <span>Start a conversation</span>
+            <span aria-hidden="true">↗</span>
+          </Link>
         </div>
 
         {/* Contact links: Phone, GitHub, LinkedIn */}

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { PROFILE } from "@/lib/data";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
@@ -204,10 +205,11 @@ export function About() {
                       <div className="relative group/photo w-[128px] h-[156px] rounded-2xl overflow-hidden p-1 bg-gradient-to-b from-[#e9e6e0] to-[#ffffff] shadow-[0_4px_16px_rgba(13,13,13,0.08),inset_0_0_0_1px_rgba(13,13,13,0.1)]">
                         <div className="w-full h-full rounded-xl overflow-hidden bg-[#f4f2ee] relative">
                           <Image
-                            src="/portrait-bust.webp"
+                            src="/photos/jatin-khandelwal.jpeg"
                             alt={PROFILE.name}
                             fill
-                            className="object-cover transition-transform duration-500 ease-out group-hover/photo:scale-105"
+                            sizes="128px"
+                            className="object-cover object-top transition-transform duration-500 ease-out group-hover/photo:scale-105"
                           />
                         </div>
                       </div>
@@ -310,7 +312,7 @@ export function About() {
                         Jatin Khandelwal
                       </div>
                       <div className="text-[10px] text-[#a9a6a0] font-mono">
-                        If found, say hello · {PROFILE.email}
+                        If found, say hello · Start a conversation
                       </div>
                     </div>
                   </div>
@@ -346,12 +348,14 @@ export function About() {
                 </div>
                 <div className="py-3 flex flex-col">
                   <span className="mono-label text-[11px] text-[#77756f]">Contact Channel</span>
-                  <a
-                    href={`mailto:${PROFILE.email}`}
-                    className="font-mono text-xs text-[#0d0d0d] hover:underline mt-0.5 break-all"
+                  <Link
+                    href="/inquiry"
+                    data-nova-cta="contact"
+                    className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-[#0d0d0d] px-3.5 py-2 text-xs font-semibold text-[#f4f2ee] transition-colors hover:bg-[#df755d]"
                   >
-                    {PROFILE.email}
-                  </a>
+                    <span>Start a conversation</span>
+                    <span aria-hidden="true">↗</span>
+                  </Link>
                 </div>
               </div>
             </div>

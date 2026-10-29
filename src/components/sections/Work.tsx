@@ -4,6 +4,19 @@ import React, { useState } from "react";
 import { PROJECTS, ProjectItem } from "@/lib/data";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TechLogo } from "@/components/ui/TechLogo";
+import { ProjectMediaWindow } from "@/components/ui/ProjectMediaWindow";
+
+// Per-project image sets (photos live in /public/photos/)
+const PROJECT_IMAGES: Record<string, string[]> = {
+  "delhi-sudarshan": ["/photos/ds.jpg", "/photos/ds-1.jpg", "/photos/ds-2.jpg"],
+  "project-setu": ["/photos/ps.jpg", "/photos/ps-1.jpg", "/photos/ps-2.jpg"],
+  "jk-music-academy": [
+    "/photos/music-academy-guitar.jpg",
+    "/photos/music-academy-piano.jpg",
+    "/photos/music-academy-production.jpg",
+  ],
+  "genai-course-assistant": ["/photos/genai-course-assistant-rag.svg"],
+};
 
 export function Work() {
   const [activeProjectId, setActiveProjectId] = useState<string>(PROJECTS[0].id);
@@ -16,7 +29,7 @@ export function Work() {
           tagLabel="Selected Work"
           headingMain="Things I've"
           italicWord="built."
-          description="Production systems and national hackathon solutions backed by working GitHub repositories and live deployments."
+          description="Production applications, AI tools, and national hackathon solutions spanning civic technology, geospatial AI, and interactive web experiences."
         />
 
         {/* Desktop Expanding Accordion Gallery (height: min(78svh, 600px)), Mobile Vertical Accordion */}
@@ -30,6 +43,7 @@ export function Work() {
                 role="button"
                 aria-expanded={isOpen}
                 aria-label={`Project: ${project.title}`}
+                data-nova-cta="project"
                 onClick={() => setActiveProjectId(project.id)}
                 onFocus={() => setActiveProjectId(project.id)}
                 className={`relative rounded-[28px] overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] outline-none focus-visible:ring-2 focus-visible:ring-[#0d0d0d] ${
@@ -137,125 +151,24 @@ export function Work() {
                       </div>
                     </div>
 
-                    {/* Right Column: Illustrative Grayscale Mini-UI */}
-                    <div className="rounded-2xl bg-[#0d0d0d] text-[#f4f2ee] p-5 flex flex-col justify-between overflow-hidden relative shadow-inner">
-                      <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                        <div className="flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
-                          <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
-                          <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
-                          <span className="mono-label text-[10px] text-[#a9a6a0] ml-2">
-                            {project.title.toLowerCase().replace(/[\s.]+/g, "-")}.internal
-                          </span>
-                        </div>
-                        <span className="mono-label text-[9px] px-2 py-0.5 rounded bg-white/10 text-[#a9a6a0]">
-                          Illustrative UI
-                        </span>
-                      </div>
-
-                      {/* Project-specific Grayscale UI Mockup */}
-                      {project.id === "delhi-sudarshan" ? (
-                        <div className="my-auto py-4 space-y-4">
-                          <div className="bg-[#1a1a1a] rounded-xl p-4 border border-white/10">
-                            <div className="flex items-center justify-between text-xs text-[#a9a6a0] mb-2 font-mono">
-                              <span>VOICE GATEWAY</span>
-                              <span className="text-white">Active · 0 UI</span>
-                            </div>
-                            {/* Soundwave animation representation */}
-                            <div className="flex items-center justify-center gap-1.5 h-12">
-                              {[12, 28, 44, 20, 36, 48, 24, 16, 40, 32, 18, 44, 30].map(
-                                (h, i) => (
-                                  <span
-                                    key={i}
-                                    className="w-1 bg-[#f4f2ee] rounded-full animate-pulse"
-                                    style={{
-                                      height: `${h}px`,
-                                      animationDelay: `${i * 90}ms`,
-                                    }}
-                                  />
-                                )
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="bg-[#1a1a1a] rounded-xl p-4 border border-white/10">
-                            <span className="mono-label text-[10px] text-[#a9a6a0] block mb-2">
-                              Department Resolution Rates (Chart.js)
-                            </span>
-                            <div className="space-y-2">
-                              <div>
-                                <div className="flex justify-between text-[11px] mb-1">
-                                  <span>Water Works</span>
-                                  <span>94%</span>
-                                </div>
-                                <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                                  <div className="h-full bg-white w-[94%]" />
-                                </div>
-                              </div>
-                              <div>
-                                <div className="flex justify-between text-[11px] mb-1">
-                                  <span>Sanitation</span>
-                                  <span>88%</span>
-                                </div>
-                                <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                                  <div className="h-full bg-white/80 w-[88%]" />
-                                </div>
-                              </div>
-                              <div>
-                                <div className="flex justify-between text-[11px] mb-1">
-                                  <span>Roadway & Infrastructure</span>
-                                  <span>82%</span>
-                                </div>
-                                <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                                  <div className="h-full bg-white/60 w-[82%]" />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="my-auto py-4 space-y-4">
-                          <div className="bg-[#1a1a1a] rounded-xl p-4 border border-white/10">
-                            <div className="flex items-center justify-between text-xs text-[#a9a6a0] mb-3 font-mono">
-                              <span>HYBRID TRANSUNET</span>
-                              <span className="text-white">CANOPY SEGMENTATION</span>
-                            </div>
-                            {/* Geospatial grid simulation */}
-                            <div className="relative h-28 bg-[#141414] rounded-lg overflow-hidden border border-white/5 flex items-center justify-center">
-                              {/* Grid overlay */}
-                              <div className="absolute inset-0 bg-[radial-gradient(#3a3a3a_1px,transparent_1px)] [background-size:16px_16px] opacity-40" />
-                              {/* Reconstructed road vector path */}
-                              <svg
-                                viewBox="0 0 200 80"
-                                className="w-full h-full p-2 stroke-white fill-none stroke-[2] z-10"
-                              >
-                                <path
-                                  d="M10 70 Q 50 10, 100 45 T 190 20"
-                                  strokeDasharray="4 2"
-                                />
-                                <circle cx="10" cy="70" r="3" fill="white" />
-                                <circle cx="100" cy="45" r="3" fill="white" />
-                                <circle cx="190" cy="20" r="3" fill="white" />
-                              </svg>
-                            </div>
-                          </div>
-
-                          <div className="bg-[#1a1a1a] rounded-xl p-3 border border-white/10 flex items-center justify-between text-xs">
-                            <span className="mono-label text-[10px] text-[#a9a6a0]">
-                              TOPOLOGY HEALING
-                            </span>
-                            <span className="font-mono text-white">
-                              MST + Union-Find Confirmed
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[10px] text-[#a9a6a0] font-mono">
-                        <span>PIPELINE VERIFIED</span>
-                        <span>RESUME DATA COMPLIANT</span>
-                      </div>
-                    </div>
+                    {/* Right Column: Photo Slideshow Window */}
+                    <ProjectMediaWindow
+                      images={PROJECT_IMAGES[project.id] ?? []}
+                      title={project.title}
+                      {...(project.id === "jk-music-academy"
+                        ? {
+                            badge: "MUSIC ACADEMY",
+                            bottomLeft: "COURSE CATALOG",
+                            bottomRight: "RESPONSIVE EXPERIENCE",
+                          }
+                        : project.id === "genai-course-assistant"
+                          ? {
+                              badge: "RAG COURSE ASSISTANT",
+                              bottomLeft: "SEMANTIC RETRIEVAL",
+                              bottomRight: "GROUNDED ANSWERS",
+                            }
+                        : {})}
+                    />
                   </div>
                 )}
               </div>
@@ -274,6 +187,7 @@ export function Work() {
               >
                 <button
                   type="button"
+                  data-nova-cta="project"
                   onClick={() => setActiveProjectId(project.id)}
                   className="w-full p-6 text-left flex items-center justify-between"
                 >

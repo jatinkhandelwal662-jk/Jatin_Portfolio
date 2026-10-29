@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="840" viewBox="0 0 1200 840" fill="none">
+  <defs>
+    <linearGradient id="background" x1="120" y1="56" x2="1058" y2="794" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#17212A"/>
+      <stop offset="1" stop-color="#0B1015"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="270" y1="302" x2="890" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4B4B"/>
+      <stop offset="1" stop-color="#FF9B55"/>
+    </linearGradient>
+    <filter id="glow" x="334" y="286" width="532" height="279" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="840" rx="32" fill="url(#background)"/>
+  <circle cx="600" cy="420" r="220" fill="#FF684F" fill-opacity=".09" filter="url(#glow)"/>
+  <path d="M92 150H1108M92 748H1108" stroke="#E8EDF2" stroke-opacity=".09"/>
+  <circle cx="118" cy="106" r="8" fill="#FF5F57"/>
+  <circle cx="146" cy="106" r="8" fill="#FEBC2E"/>
+  <circle cx="174" cy="106" r="8" fill="#28C840"/>
+  <text x="92" y="218" fill="#F4F2EE" font-family="Arial, sans-serif" font-size="38" font-weight="700">GENAI COURSE ASSISTANT</text>
+  <text x="94" y="258" fill="#9AA7B2" font-family="Arial, sans-serif" font-size="20">Ask the course materials. Get a grounded answer.</text>
+
+  <rect x="92" y="314" width="310" height="124" rx="18" fill="#18232C" stroke="#34434F"/>
+  <text x="120" y="354" fill="#FF9B78" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2">YOUR QUESTION</text>
+  <text x="120" y="392" fill="#F4F2EE" font-family="Arial, sans-serif" font-size="19">What is the weekly time</text>
+  <text x="120" y="418" fill="#F4F2EE" font-family="Arial, sans-serif" font-size="19">commitment for the course?</text>
+
+  <path d="M420 376H496" stroke="url(#accent)" stroke-width="3" stroke-linecap="round"/>
+  <path d="m486 366 12 10-12 10" stroke="#FF855F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="510" y="314" width="286" height="124" rx="18" fill="#18232C" stroke="#754D46"/>
+  <circle cx="550" cy="356" r="14" stroke="#FF8060" stroke-width="2.5"/>
+  <circle cx="550" cy="356" r="5" fill="#FF8060"/>
+  <text x="578" y="362" fill="#F4F2EE" font-family="Arial, sans-serif" font-size="19" font-weight="700">RETRIEVE CONTEXT</text>
+  <text x="540" y="402" fill="#9AA7B2" font-family="Arial, sans-serif" font-size="16">Embeddings · ChromaDB</text>
+
+  <path d="M814 376H890" stroke="url(#accent)" stroke-width="3" stroke-linecap="round"/>
+  <path d="m880 366 12 10-12 10" stroke="#FF855F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="904" y="314" width="204" height="124" rx="18" fill="#18232C" stroke="#34434F"/>
+  <path d="M940 354h30m-30 14h30m-30 14h20" stroke="#78C7A5" stroke-width="3" stroke-linecap="round"/>
+  <text x="940" y="416" fill="#F4F2EE" font-family="Arial, sans-serif" font-size="18" font-weight="700">GROUNDED</text>
+
+  <rect x="92" y="496" width="1016" height="184" rx="20" fill="#121A20" stroke="#34434F"/>
+  <rect x="120" y="524" width="142" height="30" rx="15" fill="#224437"/>
+  <text x="141" y="544" fill="#9FE0BD" font-family="Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1">COURSE ANSWER</text>
+  <text x="120" y="592" fill="#F4F2EE" font-family="Arial, sans-serif" font-size="23">The course is self-paced and takes an estimated 5–7 hours per week</text>
+  <text x="120" y="626" fill="#F4F2EE" font-family="Arial, sans-serif" font-size="23">over 10 weeks, according to the provided course materials.</text>
+  <text x="120" y="658" fill="#93A0AA" font-family="Arial, sans-serif" font-size="15">RETRIEVED FROM THE COURSE KNOWLEDGE BASE</text>
+
+  <text x="92" y="786" fill="#75828C" font-family="Arial, sans-serif" font-size="14" letter-spacing="2">LANGCHAIN  ·  HUGGING FACE  ·  CHROMADB  ·  GROQ</text>
+</svg>

@@ -335,6 +335,66 @@ export const SKILLS: SkillItem[] = [
     iconName: "render",
     projects: ["Cloud API Deployments", "Stateless Backend Services"],
   },
+  {
+    id: "figma",
+    name: "Figma",
+    symbol: "Fg",
+    atomicNumber: 22,
+    family: "Tools",
+    iconType: "brand",
+    iconName: "figma",
+    projects: ["Interface Prototyping", "Design Systems"],
+  },
+  {
+    id: "canva",
+    name: "Canva",
+    symbol: "Cv",
+    atomicNumber: 23,
+    family: "Tools",
+    iconType: "brand",
+    iconName: "canva",
+    projects: ["Visual Design", "Presentations"],
+  },
+  {
+    id: "mongodb",
+    name: "MongoDB",
+    symbol: "Mg",
+    atomicNumber: 24,
+    family: "Web & Backend",
+    iconType: "brand",
+    iconName: "mongodb",
+    projects: ["NoSQL Data Modeling", "Document Databases"],
+  },
+  {
+    id: "mysql",
+    name: "MySQL",
+    symbol: "My",
+    atomicNumber: 25,
+    family: "Web & Backend",
+    iconType: "brand",
+    iconName: "mysql",
+    projects: ["Relational Data Modeling", "SQL Queries"],
+  },
+  {
+    id: "google-colab",
+    name: "Google Colab",
+    symbol: "Gc",
+    atomicNumber: 26,
+    family: "AI / Data",
+    iconType: "brand",
+    iconName: "googlecolab",
+    projects: ["Notebook-Based Experimentation", "Data Analysis"],
+  },
+  {
+    id: "nextjs",
+    name: "Next.js",
+    symbol: "Nx",
+    atomicNumber: 27,
+    family: "Web & Backend",
+    iconType: "brand",
+    iconName: "nextjs",
+    projects: ["Portfolio Website", "React Web Applications"],
+  },
 ];
 
 export const PROJECTS: ProjectItem[] = [
@@ -375,6 +435,45 @@ export const PROJECTS: ProjectItem[] = [
     tech: ["Python", "PyTorch", "FastAPI", "Leaflet.js"],
     github: "https://github.com/jatinkhandelwal662-jk/Project-S.E.T.U",
     live: "https://project-s-e-t-u.vercel.app",
+  },
+  {
+    id: "jk-music-academy",
+    index: "03",
+    title: "JK Music Academy",
+    kicker: "Interactive Music School · Next.js · React 19",
+    description:
+      "Built a responsive music-school experience where students can explore courses, meet instructors, discover webinars, and read student testimonials.",
+    subDescription:
+      "The dark-themed interface combines interactive 3D course cards with Aceternity UI-inspired motion, animated instructor showcases, and an immersive contact page.",
+    features: [
+      "Dynamic music course catalog with interactive 3D hover cards",
+      "Animated instructor profiles, upcoming webinars, and student testimonials",
+      "Interactive contact experience with meteor effects and background beams",
+      "Responsive Next.js App Router application styled with Tailwind CSS v4",
+    ],
+    tech: ["Next.js", "React 19", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    github: "https://github.com/jatinkhandelwal662-jk/Music-academy",
+    live: "https://music-academy-swart.vercel.app/",
+  },
+  {
+    id: "genai-course-assistant",
+    index: "04",
+    title: "GenAI Course Assistant",
+    kicker: "Retrieval-Augmented Generation · Python · Streamlit",
+    description:
+      "Built a course Q&A assistant that retrieves relevant passages from a custom course corpus and uses them to ground concise answers.",
+    subDescription:
+      "The LangChain pipeline chunks course material, creates Hugging Face embeddings, retrieves context from ChromaDB, and sends it to a Groq language model.",
+    features: [
+      "Answers questions using retrieved content from a course knowledge base",
+      "Semantic search with Hugging Face embeddings and a Chroma vector store",
+      "Covers curriculum, course duration, trial access, certificates, and capstone requirements",
+      "Streamlit interface with a concise, context-grounded response flow",
+    ],
+    tech: ["Python", "Streamlit", "LangChain", "ChromaDB", "Hugging Face", "Groq"],
+    github:
+      "https://github.com/jatinkhandelwal662-jk/Gen-AI_Course-Assistant-RAG-",
+    live: "https://fwgfilywrqeclycvbuo4np.streamlit.app/",
   },
 ];
 
@@ -465,7 +564,7 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     detail:
       "Secured Top 30 ranking with Certificate of Merit for Delhi Sudarshan voice-first civic command system.",
     platform: "IEEE NSUT",
-    logo: "/logos/geeksforgeeks.svg",
+    logo: "/logos/ieee-nsut.png",
     brandColor: "#2F8D46",
     glow: "rgba(47, 141, 70, 0.18)",
   },
@@ -480,7 +579,7 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     detail:
       "Participated with Project S.E.T.U for occlusion-robust road topology reconstruction from satellite data.",
     platform: "ISRO",
-    logo: "/logos/hackerrank.svg",
+    logo: "/logos/isro.png",
     brandColor: "#00EA64",
     glow: "rgba(0, 234, 100, 0.18)",
   },
@@ -495,7 +594,7 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     detail:
       "Ranked Top 21 Finalist among nationwide competitors in high-speed algorithmic programming.",
     platform: "TechDome",
-    logo: "/logos/codechef.svg",
+    logo: "/logos/techdome.png",
     brandColor: "#5B4638",
     glow: "rgba(91, 70, 56, 0.18)",
   },
@@ -509,9 +608,9 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     caption: "CGPA 9.0 · USAR GGSIPU",
     detail:
       "Earned 9.0 CGPA across first-year engineering coursework in Industrial Internet of Things.",
-    platform: "Cisco IoT",
-    logo: "/logos/cisco.svg",
-    brandColor: "#049FD9",
-    glow: "rgba(4, 159, 217, 0.18)",
+    platform: "GGSIPU",
+    logo: "/logos/ggsipu.png",
+    brandColor: "#F5C400",
+    glow: "rgba(245, 196, 0, 0.18)",
   },
 ];

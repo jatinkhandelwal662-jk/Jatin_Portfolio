@@ -100,7 +100,7 @@ export function Navigation() {
     <>
       {/* 2px ink scroll-progress bar along top */}
       <div
-        className="fixed top-0 left-0 h-[2px] bg-[#0d0d0d] z-[70] transition-[width] duration-75 ease-out pointer-events-none"
+        className="fixed top-0 left-0 h-[2px] bg-[#df755d] z-[70] transition-[width] duration-75 ease-out pointer-events-none"
         style={{ width: `${Math.round(progress * 100)}%` }}
         aria-hidden="true"
       />
@@ -122,7 +122,7 @@ export function Navigation() {
             <div
               className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs tracking-tight transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                 scrolled
-                  ? "bg-[#0d0d0d] text-[#f4f2ee] shadow-sm"
+                  ? "bg-[#df755d] text-white shadow-sm"
                   : "border border-[#0d0d0d]/30 text-[#0d0d0d] bg-transparent"
               } group-hover:rotate-[360deg] duration-700`}
             >
@@ -152,7 +152,7 @@ export function Navigation() {
           >
             {/* Sliding ink indicator */}
             <div
-              className="absolute top-1.5 bottom-1.5 bg-[#0d0d0d] rounded-full transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none"
+              className="absolute top-1.5 bottom-1.5 bg-[#df755d] rounded-full transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none"
               style={{
                 left: `${indicatorStyle.left}px`,
                 width: `${indicatorStyle.width}px`,
@@ -170,7 +170,7 @@ export function Navigation() {
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`relative z-10 px-4 py-1.5 text-xs font-medium tracking-tight rounded-full transition-colors duration-300 ${
                     isActive
-                      ? "text-[#f4f2ee]"
+                      ? "text-white"
                       : "text-[#77756f] hover:text-[#0d0d0d]"
                   }`}
                 >
@@ -195,7 +195,7 @@ export function Navigation() {
 
       {/* Full-screen Mobile Paper Overlay */}
       <div
-        className={`fixed inset-0 z-[65] bg-[#f4f2ee] flex flex-col justify-between p-8 md:hidden transition-[clip-path] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`fixed inset-0 z-[65] bg-[#faf4df] flex flex-col justify-between p-8 md:hidden transition-[clip-path] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           mobileOpen
             ? "[clip-path:circle(150%_at_calc(100%-40px)_40px)] pointer-events-auto"
             : "[clip-path:circle(0%_at_calc(100%-40px)_40px)] pointer-events-none"
@@ -203,7 +203,7 @@ export function Navigation() {
         aria-hidden={!mobileOpen}
       >
         <div className="flex items-center justify-between">
-          <div className="w-10 h-10 rounded-full bg-[#0d0d0d] text-[#f4f2ee] flex items-center justify-center font-bold text-xs">
+          <div className="w-10 h-10 rounded-full bg-[#df755d] text-white flex items-center justify-center font-bold text-xs">
             JK
           </div>
           <button

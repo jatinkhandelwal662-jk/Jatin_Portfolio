@@ -1,43 +1,39 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PROFILE } from "@/lib/data";
 import { scrollToTarget } from "@/lib/scroll";
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const firstName = PROFILE.name.split(" ")[0];
   const [isMuted, setIsMuted] = useState(true);
   const [soundUnlocked, setSoundUnlocked] = useState(false);
+  const [hasTransparentVideo, setHasTransparentVideo] = useState(false);
 
-  // Autoplay attempt with fallback & user gesture listener
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Try play with sound first
     video.muted = false;
     const playPromise = video.play();
 
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
-          setIsPlaying(true);
           setIsMuted(false);
           setSoundUnlocked(true);
         })
         .catch(() => {
-          // Autoplay with sound was blocked; fallback to muted autoplay
           video.muted = true;
-          video.play().then(() => {
-            setIsPlaying(true);
-            setIsMuted(true);
-          });
+          video
+            .play()
+            .then(() => setIsMuted(true))
+            .catch(() => {});
         });
     }
 
-    // Unlock sound on first user interaction anywhere
     const unlockSound = () => {
       if (videoRef.current && !soundUnlocked) {
         videoRef.current.muted = false;
@@ -60,28 +56,23 @@ export function Hero() {
     };
   }, [soundUnlocked]);
 
-  // IntersectionObserver pauses video when less than 35% visible
   useEffect(() => {
-    const el = sectionRef.current;
+    const section = sectionRef.current;
     const video = videoRef.current;
-    if (!el || !video) return;
+    if (!section || !video) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.intersectionRatio >= 0.35) {
           video.play().catch(() => {});
-          setIsPlaying(true);
         } else {
           video.pause();
-          setIsPlaying(false);
         }
       },
-      {
-        threshold: [0, 0.35, 0.5, 1.0],
-      }
+      { threshold: [0, 0.35, 0.5, 1] }
     );
 
-    observer.observe(el);
+    observer.observe(section);
     return () => observer.disconnect();
   }, []);
 
@@ -104,128 +95,208 @@ export function Hero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden bg-[#f4f2ee] pt-24 pb-8 md:py-16 select-none"
+      className="relative min-h-[100svh] overflow-hidden bg-[#faf4df] pb-10 pt-24 text-[#171512] md:pt-28"
     >
-      {/* Giant outlined ghost word behind person */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0"
+        className="pointer-events-none absolute -right-[18vw] top-[14%] h-[72vw] max-h-[780px] w-[72vw] max-w-[780px] rounded-full border border-[#d98870]/15"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute left-[3%] top-[24%] h-2 w-2 rounded-full bg-[#df755d]"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute right-[8%] top-[22%] h-3 w-3 rounded-full border border-[#df755d]/50"
+        aria-hidden="true"
+      />
+
+      <div
+        className="pointer-events-none absolute inset-x-0 top-[20%] z-0 flex justify-center overflow-hidden select-none"
         aria-hidden="true"
       >
         <span
-          className="font-extrabold uppercase tracking-[-0.06em] text-[clamp(110px,24vw,340px)] leading-none text-transparent"
-          style={{
-            WebkitTextStroke: "1.5px rgba(13, 13, 13, 0.08)",
-          }}
+          className="whitespace-nowrap font-extrabold text-[clamp(150px,28vw,390px)] leading-none tracking-[-0.09em] text-transparent opacity-60"
+          style={{ WebkitTextStroke: "1px rgba(116, 87, 67, 0.1)" }}
         >
           {PROFILE.firstName}
         </span>
       </div>
 
-      {/* Main hero center content with video */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center section-container w-full">
-        <div className="relative flex items-center justify-center w-full max-w-3xl mx-auto">
-          {/* Hero looping video */}
-          <div className="relative w-full flex items-center justify-center">
-            <video
-              ref={videoRef}
-              loop
-              playsInline
-              preload="auto"
-              muted={isMuted}
-              className="w-auto max-w-full h-[52svh] md:h-[min(64svh,680px)] object-contain mix-blend-multiply"
-              style={{
-                aspectRatio: "768 / 960",
-              }}
-            >
-              <source src="/hero/hero.webm" type="video/webm" />
-              <source src="/hero/hero.mp4" type="video/mp4" />
-            </video>
+      <div className="section-container relative z-10 grid min-h-[calc(100svh-8rem)] w-full items-center gap-2 lg:grid-cols-[1.02fr_0.98fr] lg:gap-0">
+        <div className="relative z-20 py-8 text-center lg:py-0 lg:text-left">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#171512]/10 bg-white/45 px-3.5 py-2 text-[10px] font-medium uppercase tracking-[0.16em] text-[#77756f] sm:text-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#df755d]" />
+            New Delhi, India <span className="text-[#c2b9a2]">/</span> Industrial IoT student
+          </div>
 
-            {/* Sound control button (46px, solid ink) */}
-            <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-20">
-              <div className="relative">
-                {isMuted && (
-                  <span
-                    className="absolute inset-0 rounded-full animate-ping bg-[#0d0d0d]/20 pointer-events-none"
-                    aria-hidden="true"
-                  />
-                )}
-                <button
-                  type="button"
-                  onClick={toggleSound}
-                  className="relative w-[46px] h-[46px] rounded-full bg-[#0d0d0d] text-[#f4f2ee] flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
-                  aria-label={isMuted ? "Unmute audio" : "Mute audio"}
-                >
-                  {isMuted ? (
-                    /* Play triangle (sound off) */
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-4 h-4 ml-0.5"
-                      aria-hidden="true"
-                    >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  ) : (
-                    /* Two bars (sound on) */
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-4 h-4"
-                      aria-hidden="true"
-                    >
-                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                    </svg>
-                  )}
-                </button>
-              </div>
+          <p className="mb-1 font-serif text-lg italic text-[#d66d55] sm:text-xl">
+            Hi there, I&apos;m
+          </p>
+          <h1 className="heading-display text-[clamp(4.5rem,11vw,9rem)] leading-[0.83] tracking-[-0.075em] text-[#171512]">
+            {firstName}
+            <span className="text-[#df755d]">.</span>
+          </h1>
+
+          <p className="mt-6 text-xl font-semibold tracking-tight text-[#3a342f] sm:text-2xl">
+            {PROFILE.role}
+            <span className="serif-italic ml-1 text-[#d66d55]">with purpose.</span>
+          </p>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#77756f] sm:text-base lg:mx-0">
+            {PROFILE.subLine}
+          </p>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-[#6d675e] lg:justify-start">
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#df755d]" />
+              GGSIPU · {PROFILE.dept}
+            </span>
+            <span className="hidden h-4 w-px bg-[#171512]/15 sm:block" />
+            <span>Building voice-first civic tech</span>
+          </div>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+            <a
+              href="#work"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToTarget("#work");
+              }}
+              className="inline-flex items-center gap-2 rounded-full bg-[#df755d] px-6 py-3 text-sm font-medium text-white shadow-[0_8px_24px_-10px_rgba(181,83,61,0.65)] transition-all hover:-translate-y-0.5 hover:bg-[#ca634c]"
+            >
+              Explore my work <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              href="#contact"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToTarget("#contact");
+              }}
+              className="inline-flex items-center gap-2 rounded-full border border-[#171512]/15 bg-white/35 px-6 py-3 text-sm font-medium text-[#302c27] transition-all hover:-translate-y-0.5 hover:bg-white/70"
+            >
+              Let&apos;s talk
+            </a>
+            <a
+              href={PROFILE.resumePath}
+              download="Jatin_Khandelwal_Resume.pdf"
+              className="inline-flex items-center gap-1.5 px-2 py-3 text-sm font-medium text-[#77756f] transition-colors hover:text-[#d66d55]"
+            >
+              Résumé <span aria-hidden="true">↓</span>
+            </a>
+          </div>
+
+          <div className="mx-auto mt-10 flex max-w-md items-center justify-center gap-6 border-t border-[#171512]/10 pt-5 text-left lg:mx-0 lg:justify-start">
+            <div>
+              <span className="mono-label block text-[9px] text-[#a19a8c]">
+                Currently
+              </span>
+              <span className="mt-1 block text-xs font-medium text-[#3a342f]">
+                B.Tech · GGSIPU USAR
+              </span>
+            </div>
+            <span className="h-8 w-px bg-[#171512]/10" />
+            <div>
+              <span className="mono-label block text-[9px] text-[#a19a8c]">
+                Focus
+              </span>
+              <span className="mt-1 block text-xs font-medium text-[#3a342f]">
+                Full-stack &amp; geospatial AI
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Hero Role Heading & CTAs */}
-        <div className="relative z-20 text-center max-w-3xl mx-auto mt-4 md:mt-2">
-          <h1 className="heading-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#0d0d0d] tracking-[-0.045em] leading-[1.05]">
-            {PROFILE.role}
-            <span className="serif-italic font-normal text-[#77756f]">.</span>
-          </h1>
+        <div className="relative isolate mx-auto flex h-[min(56svh,560px)] w-full max-w-[540px] items-center justify-center sm:h-[min(66svh,660px)] lg:h-[min(78svh,740px)]">
+          <div
+            className="absolute bottom-[8%] left-[12%] z-0 aspect-square w-[18%] rounded-full bg-[#f0c85c]"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute right-[8%] top-[13%] z-0 aspect-square w-[12%] rounded-full border border-[#df755d]/40"
+            aria-hidden="true"
+          />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-[4%] z-[5] mx-auto h-[92%] w-full rounded-full bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.72)_0%,rgba(255,255,255,0.36)_38%,transparent_72%)]"
+            aria-hidden="true"
+          />
 
-          <p className="mt-3 text-[#77756f] text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-            {PROFILE.subLine}
-          </p>
+          <div className="absolute left-[3%] top-[16%] z-20 hidden -rotate-6 rounded-2xl border border-white/80 bg-white/80 px-4 py-3 shadow-[0_12px_30px_-18px_rgba(54,41,28,0.4)] backdrop-blur sm:block">
+            <span className="mono-label block text-[9px] text-[#a19a8c]">
+              Building
+            </span>
+            <span className="mt-1 block text-xs font-semibold text-[#302c27]">
+              People-first technology
+            </span>
+          </div>
 
-          {/* Action CTAs */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#work"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToTarget("#work");
-              }}
-              className="btn-pill-primary"
-            >
-              Explore work
-            </a>
+          <video
+            ref={videoRef}
+            loop
+            playsInline
+            preload="auto"
+            muted={isMuted}
+            onLoadedData={(event) =>
+              setHasTransparentVideo(
+                event.currentTarget.currentSrc.endsWith(".webm")
+              )
+            }
+            aria-label="Animated portrait of Jatin Khandelwal"
+            className="relative z-10 h-[92%] max-h-full max-w-[94%] object-contain"
+            style={{
+              aspectRatio: "768 / 960",
+              maskImage: hasTransparentVideo
+                ? undefined
+                : "url('/hero/hero-mask.png')",
+              maskSize: "100% 100%",
+              maskRepeat: "no-repeat",
+              WebkitMaskImage: hasTransparentVideo
+                ? undefined
+                : "url('/hero/hero-mask.png')",
+              WebkitMaskSize: "100% 100%",
+              WebkitMaskRepeat: "no-repeat",
+              filter: hasTransparentVideo
+                ? "drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.8)) drop-shadow(0 18px 28px rgba(60, 42, 32, 0.22))"
+                : undefined,
+            }}
+          >
+            <source src="/hero/hero-transparent.webm" type="video/webm" />
+            <source src="/hero/hero.mp4" type="video/mp4" />
+          </video>
 
-            <a
-              href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToTarget("#contact");
-              }}
-              className="btn-pill-secondary"
-            >
-              Let&apos;s talk
-            </a>
-
-            <a
-              href={PROFILE.resumePath}
-              download="Jatin_Khandelwal_Resume.pdf"
-              className="btn-pill-secondary flex items-center gap-1.5"
-            >
-              <span>Résumé</span>
-              <span className="text-xs">↓</span>
-            </a>
+          <div className="absolute bottom-5 left-5 z-20">
+            <div className="relative">
+              {isMuted && (
+                <span
+                  className="pointer-events-none absolute inset-0 animate-ping rounded-full bg-[#171512]/15"
+                  aria-hidden="true"
+                />
+              )}
+              <button
+                type="button"
+                onClick={toggleSound}
+                className="relative flex h-10 w-10 items-center justify-center rounded-full bg-[#171512] text-[#faf4df] shadow-lg transition-transform hover:scale-105 active:scale-95"
+                aria-label={isMuted ? "Unmute portrait video" : "Mute portrait video"}
+              >
+                {isMuted ? (
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="ml-0.5 h-4 w-4"
+                    aria-hidden="true"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                ) : (
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="h-4 w-4"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

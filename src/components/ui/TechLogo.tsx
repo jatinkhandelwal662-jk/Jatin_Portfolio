@@ -21,11 +21,18 @@ export const BRAND_MAP: Record<string, { src: string; alt: string; color: string
   docker: { src: "/logos/docker.svg", alt: "Docker", color: "#2496ED" },
   vercel: { src: "/logos/vercel.svg", alt: "Vercel", color: "#000000" },
   render: { src: "/logos/render.svg", alt: "Render", color: "#46E3B7" },
+  figma: { src: "/logos/figma.svg", alt: "Figma", color: "#A259FF" },
+  canva: { src: "/logos/canva.svg", alt: "Canva", color: "#00C4CC" },
+  mongodb: { src: "/logos/mongodb.svg", alt: "MongoDB", color: "#47A248" },
+  mysql: { src: "/logos/mysql.svg", alt: "MySQL", color: "#4479A1" },
+  googlecolab: { src: "/logos/google-colab.svg", alt: "Google Colab", color: "#F9AB00" },
+  nextjs: { src: "/logos/nextjs.svg", alt: "Next.js", color: "#000000" },
   cisco: { src: "/logos/cisco.svg", alt: "Cisco", color: "#049FD9" },
   leetcode: { src: "/logos/leetcode.svg", alt: "LeetCode", color: "#FFA116" },
   codechef: { src: "/logos/codechef.svg", alt: "CodeChef", color: "#5B4638" },
   geeksforgeeks: { src: "/logos/geeksforgeeks.svg", alt: "GeeksforGeeks", color: "#2F8D46" },
   hackerrank: { src: "/logos/hackerrank.svg", alt: "HackerRank", color: "#00EA64" },
+  
 };
 
 export const CONCEPT_MAP: Record<string, string> = {

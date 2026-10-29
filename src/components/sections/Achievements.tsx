@@ -48,7 +48,7 @@ function CounterCard({
   return (
     <div
       data-card-item
-      className={`shrink-0 w-[clamp(340px,40vw,540px)] h-[clamp(260px,36vh,310px)] rounded-[28px] bg-white p-7 sm:p-8 flex flex-col justify-between relative transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`shrink-0 w-[min(540px,calc(100vw-48px))] h-[clamp(290px,40vh,330px)] sm:w-[clamp(340px,40vw,540px)] sm:h-[clamp(260px,36vh,310px)] rounded-[28px] bg-white p-7 sm:p-8 flex flex-col justify-between relative transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         isNearestCenter
           ? "-translate-y-3 shadow-[0_28px_60px_-14px_rgba(13,13,13,0.16),inset_0_0_0_1px_rgba(13,13,13,0.08)]"
           : "translate-y-0 shadow-[0_10px_30px_-8px_rgba(13,13,13,0.06),inset_0_0_0_1px_rgba(13,13,13,0.05)] opacity-85"
@@ -86,12 +86,12 @@ function CounterCard({
       </div>
 
       {/* Bottom Content: Bottom-left info, Bottom-right huge number */}
-      <div className="flex items-end justify-between gap-4 relative z-10 pt-4 border-t border-[rgba(13,13,13,0.05)]">
-        <div className="max-w-[55%]">
+      <div className="flex flex-col items-stretch gap-3 relative z-10 pt-4 border-t border-[rgba(13,13,13,0.05)] sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+        <div className="w-full sm:max-w-[55%]">
           <span className="mono-label text-[10px] text-[#77756f] block mb-1">
             {item.label}
           </span>
-          <h4 className="font-bold text-base sm:text-lg text-[#0d0d0d] leading-snug tracking-tight">
+          <h4 className="line-clamp-3 font-bold text-base sm:text-lg text-[#0d0d0d] leading-snug tracking-tight sm:line-clamp-none">
             {item.caption}
           </h4>
           <p className="text-xs text-[#77756f] mt-1 line-clamp-2 leading-relaxed">
@@ -100,8 +100,8 @@ function CounterCard({
         </div>
 
         {/* Bottom-right huge number counting up */}
-        <div className="text-right shrink-0">
-          <div className="heading-display text-4xl sm:text-5xl md:text-6xl text-[#0d0d0d] tracking-[-0.05em] leading-none">
+        <div className="w-full text-right shrink-0 sm:w-auto">
+          <div className="heading-display text-[clamp(1.75rem,8vw,2.25rem)] sm:text-5xl md:text-6xl text-[#0d0d0d] tracking-[-0.05em] leading-none">
             {item.prefix || ""}
             {displayVal}
             <span className="text-2xl sm:text-3xl text-[#77756f] font-normal">

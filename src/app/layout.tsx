@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
+import "@bible-strong/avatar-react/styles.css";
 import "./globals.css";
+import { InteractiveAvatar } from "@/components/ui/InteractiveAvatar";
+import OfflineRunner from "@/components/OfflineRunner";
 import { SmoothScrollProvider } from "@/lib/scroll";
 
 const interTight = localFont({
@@ -85,8 +89,71 @@ export default function RootLayout({
       lang="en"
       className={`${interTight.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="antialiased selection:bg-[#0d0d0d] selection:text-[#f4f2ee]">
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+      <body
+        className="antialiased selection:bg-[#0d0d0d] selection:text-[#f4f2ee]"
+      >
+        <Script
+          id="remove-browser-extension-attributes"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const knownAttributes = new Set([
+                  'bis_skin_checked',
+                  'bis_register',
+                  'cz-shortcut-listen',
+                ]);
+
+                function isExtensionAttribute(name) {
+                  return knownAttributes.has(name) || /^__processed_.*__$/i.test(name);
+                }
+
+                function cleanElement(element) {
+                  Array.from(element.attributes).forEach((attribute) => {
+                    if (isExtensionAttribute(attribute.name)) {
+                      element.removeAttribute(attribute.name);
+                    }
+                  });
+                }
+
+                function cleanTree(node) {
+                  if (!(node instanceof Element)) return;
+                  cleanElement(node);
+                  node.querySelectorAll('*').forEach(cleanElement);
+                }
+
+                cleanTree(document.documentElement);
+
+                const observer = new MutationObserver((mutations) => {
+                  mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes') {
+                      if (isExtensionAttribute(mutation.attributeName || '')) {
+                        cleanElement(mutation.target);
+                      }
+                    } else {
+                      mutation.addedNodes.forEach(cleanTree);
+                    }
+                  });
+                });
+
+                observer.observe(document.documentElement, {
+                  attributes: true,
+                  childList: true,
+                  subtree: true,
+                });
+              })();
+            `,
+          }}
+        />
+        <SmoothScrollProvider>
+          {children}
+          <InteractiveAvatar />
+          <OfflineRunner
+            autoOpenOnSlow={true}
+            avatarSrc="/photos/avatar-runner.png"
+            theme="dark"
+          />
+        </SmoothScrollProvider>
       </body>
     </html>
   );
