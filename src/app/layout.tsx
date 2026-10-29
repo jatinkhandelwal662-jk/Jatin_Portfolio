@@ -4,7 +4,7 @@ import Script from "next/script";
 import "@bible-strong/avatar-react/styles.css";
 import "./globals.css";
 import { InteractiveAvatar } from "@/components/ui/InteractiveAvatar";
-import OfflineRunner from "@/components/OfflineRunner";
+import FlappyPortfolio from "@/components/FlappyPortfolio";
 import { SmoothScrollProvider } from "@/lib/scroll";
 
 const interTight = localFont({
@@ -148,11 +148,7 @@ export default function RootLayout({
         <SmoothScrollProvider>
           {children}
           <InteractiveAvatar />
-          <OfflineRunner
-            autoOpenOnSlow={true}
-            avatarSrc="/photos/avatar-runner.png"
-            theme="dark"
-          />
+          <FlappyPortfolio />
         </SmoothScrollProvider>
       </body>
     </html>

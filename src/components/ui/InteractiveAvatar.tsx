@@ -23,6 +23,10 @@ const IDLE_TIMEOUT_MS = 10_000;
 const BUBBLE_DURATION_MS = 5_000;
 const INTERACTION_HOLD_MS = 3_000;
 const ROAM_INTERVAL_MS = 8_000;
+const FAST_SCROLL_THRESHOLD = 1.8;
+const FAST_SCROLL_COOLDOWN_MS = 20_000;
+const READ_DWELL_MS = 2_500;
+const READ_REACTION_SECTIONS = 2;
 const interactiveSelector =
   "[data-nova-cta], a, button, [role='button']";
 type RoamPosition = "bottom-right" | "top-right" | "top-left" | "bottom-left";
@@ -340,6 +344,7 @@ export function InteractiveAvatar() {
   const roamPositionRef = useRef<RoamPosition>("bottom-right");
   const interactionLockRef = useRef(0);
   const isSleepingRef = useRef(false);
+  const isAssistantOpenRef = useRef(false);
 
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -449,6 +454,15 @@ export function InteractiveAvatar() {
     let pendingPointer: { x: number; y: number } | null = null;
     let lastQuadrant = "";
     let lastCta: HTMLElement | null = null;
+    let lastScrollY = window.scrollY;
+    let lastScrollTime = performance.now();
+    let lastFastScrollReaction = -FAST_SCROLL_COOLDOWN_MS;
+    let hasCelebratedReading = false;
+    let focusedSection: Element | null = null;
+    const visibleSections = new Map<Element, number>();
+    const readSections = new Set<string>();
+    let readingTimer = 0;
+    let sadReactionTimer = 0;
     const invalidFields = new WeakSet<Element>();
     const alertMessages = new WeakMap<HTMLElement, string>();
 
@@ -472,6 +486,104 @@ export function InteractiveAvatar() {
         playAnimation("waking");
       }
     };
+
+    const handleScroll = () => {
+      handleActivity();
+      const now = performance.now();
+      const scrollY = window.scrollY;
+      const elapsed = now - lastScrollTime;
+      const distance = scrollY - lastScrollY;
+      const speed = elapsed > 0 ? distance / elapsed : 0;
+
+      if (
+        speed >= FAST_SCROLL_THRESHOLD &&
+        distance >= 24 &&
+        now - lastFastScrollReaction >= FAST_SCROLL_COOLDOWN_MS &&
+        !isAssistantOpenRef.current
+      ) {
+        lastFastScrollReaction = now;
+        interactionLockRef.current = Date.now() + 4_500;
+        window.clearTimeout(readingTimer);
+        window.clearTimeout(sadReactionTimer);
+        playAnimation("angry");
+        showBubble("Whoa, speed-run! Didn't you like my work? 😠", 4_500);
+        sadReactionTimer = window.setTimeout(() => {
+          if (isAssistantOpenRef.current) return;
+          playAnimation("sad");
+          showBubble("Aw... I was hoping you'd stay and look around 🥺");
+        }, 1_700);
+      }
+
+      lastScrollY = scrollY;
+      lastScrollTime = now;
+    };
+
+    const scheduleReadingReaction = () => {
+      window.clearTimeout(readingTimer);
+      if (!focusedSection || hasCelebratedReading) return;
+
+      readingTimer = window.setTimeout(() => {
+        if (
+          !focusedSection ||
+          !visibleSections.has(focusedSection) ||
+          document.visibilityState !== "visible"
+        ) {
+          return;
+        }
+
+        const sectionId = focusedSection.id;
+        if (sectionId) readSections.add(sectionId);
+        if (
+          readSections.size >= READ_REACTION_SECTIONS &&
+          !hasCelebratedReading &&
+          Date.now() >= interactionLockRef.current &&
+          !isAssistantOpenRef.current
+        ) {
+          hasCelebratedReading = true;
+          interactionLockRef.current = Date.now() + INTERACTION_HOLD_MS;
+          playAnimation("happy");
+          showBubble("You're taking your time with my work... that makes me happy! 😊");
+          return;
+        }
+
+        if (
+          readSections.size >= READ_REACTION_SECTIONS &&
+          !hasCelebratedReading &&
+          !isAssistantOpenRef.current
+        ) {
+          readingTimer = window.setTimeout(() => {
+            if (hasCelebratedReading || isAssistantOpenRef.current) return;
+            hasCelebratedReading = true;
+            interactionLockRef.current = Date.now() + INTERACTION_HOLD_MS;
+            playAnimation("happy");
+            showBubble("You're taking your time with my work... that makes me happy! 😊");
+          }, Math.max(0, interactionLockRef.current - Date.now()));
+        }
+      }, READ_DWELL_MS);
+    };
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            visibleSections.set(entry.target, entry.intersectionRatio);
+          } else {
+            visibleSections.delete(entry.target);
+          }
+        }
+
+        const nextFocusedSection =
+          [...visibleSections.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+        if (nextFocusedSection !== focusedSection) {
+          focusedSection = nextFocusedSection;
+          scheduleReadingReaction();
+        }
+      },
+      { threshold: [0.25, 0.4, 0.6] }
+    );
+    document
+      .querySelectorAll<HTMLElement>("main section[id], main footer[id]")
+      .forEach((section) => sectionObserver.observe(section));
 
     const handlePointerMove = (event: PointerEvent) => {
       handleActivity();
@@ -677,15 +789,18 @@ export function InteractiveAvatar() {
     window.addEventListener("focusout", handleFocusOut, true);
     window.addEventListener("input", handleInput, true);
     window.addEventListener("invalid", handleInvalid, true);
-    window.addEventListener("scroll", handleActivity, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("keydown", handleActivity);
     window.addEventListener("touchstart", handleActivity, { passive: true });
     scheduleIdle();
 
     return () => {
       window.clearTimeout(idleTimer);
+      window.clearTimeout(readingTimer);
+      window.clearTimeout(sadReactionTimer);
       window.cancelAnimationFrame(pointerFrame);
       alertObserver.disconnect();
+      sectionObserver.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerover", handlePointerOver, true);
       window.removeEventListener("pointerout", handlePointerOut, true);
@@ -693,7 +808,7 @@ export function InteractiveAvatar() {
       window.removeEventListener("focusout", handleFocusOut, true);
       window.removeEventListener("input", handleInput, true);
       window.removeEventListener("invalid", handleInvalid, true);
-      window.removeEventListener("scroll", handleActivity);
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("keydown", handleActivity);
       window.removeEventListener("touchstart", handleActivity);
     };
@@ -712,10 +827,12 @@ export function InteractiveAvatar() {
 
   const toggleAssistant = () => {
     if (isOpen) {
+      isAssistantOpenRef.current = false;
       setIsOpen(false);
       showBubble("I'm right here if you need help.");
       playAnimation("idle");
     } else {
+      isAssistantOpenRef.current = true;
       moveMascotTo("bottom-right");
       setIsOpen(true);
       setIsBubbleVisible(false);
