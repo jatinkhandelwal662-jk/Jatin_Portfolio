@@ -36,7 +36,7 @@ export function Work() {
           description="Production applications, AI tools, and national hackathon solutions spanning civic technology, geospatial AI, and interactive web experiences."
         />
 
-        {/* Desktop Expanding Accordion Gallery (height: min(78svh, 600px)), Mobile Vertical Accordion */}
+        {/* Desktop Expanding Accordion Gallery (height: min(78svh, 620px)), Mobile Vertical Accordion */}
         <div className="hidden lg:flex gap-4 h-[min(78svh,620px)] items-stretch">
           {PROJECTS.map((project) => {
             const isOpen = activeProjectId === project.id;
@@ -52,7 +52,7 @@ export function Work() {
                 onFocus={() => setActiveProjectId(project.id)}
                 className={`relative rounded-[28px] overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] outline-none focus-visible:ring-2 focus-visible:ring-[#0d0d0d] ${
                   isOpen
-                    ? "flex-[8] bg-white shadow-[inset_0_0_0_1px_rgba(13,13,13,0.08),0_20px_50px_-12px_rgba(13,13,13,0.1)] p-8"
+                    ? "flex-[8] bg-white shadow-[inset_0_0_0_1px_rgba(13,13,13,0.08),0_20px_50px_-12px_rgba(13,13,13,0.1)] p-6"
                     : "flex-[1.2] max-w-[90px] bg-white/70 hover:bg-white cursor-pointer shadow-[inset_0_0_0_1px_rgba(13,13,13,0.06)] p-6"
                 }`}
               >
@@ -75,10 +75,10 @@ export function Work() {
                   </div>
                 ) : (
                   /* Expanded Open Panel */
-                  <div className="h-full grid grid-cols-[1.1fr_1fr] gap-8 items-stretch animate-[fadeIn_0.5s_ease-out]">
+                  <div className="h-full grid grid-cols-[1.1fr_1fr] gap-6 items-stretch animate-[fadeIn_0.5s_ease-out]">
                     {/* Left Column: Info & Tech */}
-                    <div className="flex flex-col justify-between overflow-y-auto pr-2">
-                      <div>
+                    <div className="flex min-h-0 flex-col overflow-hidden pr-2">
+                      <div className="min-h-0 flex-1 overflow-y-auto">
                         {/* Kicker & Index */}
                         <div className="flex items-center gap-3 mb-2">
                           <span className="mono-label text-xs text-[#77756f]">
@@ -98,16 +98,12 @@ export function Work() {
                         <p className="text-[#3a3a3a] text-sm leading-relaxed mb-3">
                           {project.description}
                         </p>
-                        <p className="text-[#77756f] text-xs leading-relaxed mb-5">
-                          {project.subDescription}
-                        </p>
-
                         {/* 2-column feature list */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-4 pt-4 border-t border-[rgba(13,13,13,0.06)]">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 my-3 pt-3 border-t border-[rgba(13,13,13,0.06)]">
                           {project.features.map((feat, idx) => (
                             <div
                               key={idx}
-                              className="text-xs text-[#3a3a3a] flex items-start gap-2 bg-[#fbfaf8] p-2.5 rounded-xl border border-[rgba(13,13,13,0.04)]"
+                              className="text-xs text-[#3a3a3a] flex items-start gap-2 bg-[#fbfaf8] p-2 rounded-xl border border-[rgba(13,13,13,0.04)]"
                             >
                               <span className="w-1.5 h-1.5 rounded-full bg-[#0d0d0d] mt-1 shrink-0" />
                               <span className="leading-snug">{feat}</span>
@@ -117,8 +113,8 @@ export function Work() {
                       </div>
 
                       {/* Tech chips + Actions */}
-                      <div className="pt-4 border-t border-[rgba(13,13,13,0.06)] mt-4">
-                        <div className="flex flex-wrap items-center gap-2 mb-5">
+                      <div className="shrink-0 pt-3 border-t border-[rgba(13,13,13,0.06)] mt-3">
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
                           {project.tech.map((t) => (
                             <div
                               key={t}
