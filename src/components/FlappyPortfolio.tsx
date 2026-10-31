@@ -920,15 +920,15 @@ export default function FlappyPortfolio() {
 
       {isOpen && (
         <div
-          className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-3 backdrop-blur-md transition-opacity duration-300 sm:p-6 ${
+          className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity duration-300 ${
             isClosing ? 'pointer-events-none opacity-0' : 'opacity-100'
           }`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="flappy-portfolio-title"
         >
-          <section className="relative w-full max-w-3xl overflow-hidden rounded-2xl border border-cyan-300/30 bg-[#0d1117] shadow-[0_0_80px_rgba(0,243,255,0.14)]">
-            <div className="flex items-start justify-between gap-4 border-b border-white/10 px-4 py-4 sm:px-6">
+          <section className="relative flex h-full w-full max-w-none flex-col overflow-hidden border-0 bg-[#0d1117]">
+            <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6 sm:py-4">
               <div>
                 <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.24em] text-cyan-300/80">
                   Portfolio // Arcade
@@ -956,8 +956,8 @@ export default function FlappyPortfolio() {
               </div>
             )}
 
-            <div className="px-3 pt-3 sm:px-5 sm:pt-5">
-              <div className="mb-3 flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+            <div className="flex min-h-0 flex-1 flex-col px-3 py-2 sm:px-5 sm:py-3">
+              <div className="mb-2 flex shrink-0 flex-wrap items-center justify-between gap-2 font-mono text-xs">
                 <div className="flex items-center gap-4">
                   <span className="text-slate-400">SCORE <strong className="ml-1 text-lg text-white">{score}</strong></span>
                   <span className="text-slate-400">BEST <strong className="ml-1 text-lg text-lime-300">{highScore}</strong></span>
@@ -969,7 +969,7 @@ export default function FlappyPortfolio() {
                 )}
               </div>
 
-              <div className="relative w-full overflow-hidden rounded-xl border border-cyan-300/20 bg-[#0d1117]" style={{ aspectRatio: '16 / 10', maxHeight: '56vh' }}>
+              <div className="relative min-h-0 flex-1 overflow-hidden rounded-xl border border-cyan-300/20 bg-[#0d1117]">
                 <canvas
                   ref={canvasRef}
                   onPointerDown={handleCanvasPointerDown}
@@ -982,7 +982,7 @@ export default function FlappyPortfolio() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-4 font-mono text-[10px] text-slate-500 sm:px-6 sm:text-xs">
+            <div className="flex shrink-0 flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3 font-mono text-[10px] text-slate-500 sm:px-6 sm:py-4 sm:text-xs">
               <span>SPACE / ↑ / TAP: FLAP</span>
               <span>TECH BADGE: +5 OR 5s SHIELD</span>
               <span>ESC: CLOSE</span>

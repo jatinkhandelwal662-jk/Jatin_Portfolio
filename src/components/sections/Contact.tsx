@@ -98,18 +98,6 @@ export function Contact() {
         <div className="rv py-10 grid grid-cols-1 sm:grid-cols-3 gap-6" style={{ "--i": 4 } as React.CSSProperties}>
           <div className="p-6 rounded-2xl bg-white shadow-sm border border-[rgba(13,13,13,0.05)]">
             <span className="mono-label text-[10px] text-[#77756f] block mb-1">
-              Direct Phone
-            </span>
-            <a
-              href={PROFILE.phoneHref}
-              className="font-bold text-sm text-[#0d0d0d] hover:underline"
-            >
-              {PROFILE.phone}
-            </a>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-white shadow-sm border border-[rgba(13,13,13,0.05)]">
-            <span className="mono-label text-[10px] text-[#77756f] block mb-1">
               Source Repositories
             </span>
             <a
